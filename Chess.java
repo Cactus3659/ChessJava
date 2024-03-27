@@ -1,7 +1,12 @@
 /*
  * a simple game of Chess
  */
+
+import java.util.*;
+
 public class Chess {
+
+    public final static String StartPos = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 
     public final int None = 0;
     public final int King = 1;
@@ -18,16 +23,50 @@ public class Chess {
     public static void main (String[] args) {
         boardPos = new int[64];
         Chess chess = new Chess();
-        chess.StartGame();
+        chess.loadFromFen(StartPos);
+        chess.PrintBoard();
     }
 
-    public void StartGame(){
-        boardPos[0] = King|White;
-        System.out.println(boardPos[0]);
+    public void PrintBoard(){
+        for(int j = 7; j >= 0; j--){
+            for(int i = 7; i >= 0; i--){
+            System.out.printf("%3d",boardPos[j*8 + i]);
+            }
+            System.out.println();
+        }
+
     }
     
-    public static void loadFromFen (String fen){
-        
+    public void loadFromFen (String fen){
+        Dictionary<Character,Integer> pieceTypeLetter= new Hashtable<>();
+        pieceTypeLetter.put('k', King);
+        pieceTypeLetter.put('p', Pawn);
+        pieceTypeLetter.put('n', Knight);
+        pieceTypeLetter.put('b', Bishop);
+        pieceTypeLetter.put('r', Rook);
+        pieceTypeLetter.put('q', Queen);
+
+
+        char[] fenSplit = fen.toCharArray();
+        int file = 0, rank = 7;
+
+        for (char letter : fenSplit) {
+            if(letter == '/'){
+                file = 0;
+                rank--;
+            }
+            else if (Character.isDigit(letter)) {
+                int numberFromChar = letter;
+                file += numberFromChar;
+            }
+            else {
+                int colour = (Character.isUpperCase(letter)) ? White : Black;
+                int type = pieceTypeLetter.get(Character.toLowerCase(letter));
+                boardPos[rank * 8 + file] = type|colour;
+                file ++;
+            }
+            
+        }
 
     }
 }
