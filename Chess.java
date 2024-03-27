@@ -6,8 +6,11 @@ import java.util.*;
 
 public class Chess {
 
+
+    //default position in fen notation
     public final static String StartPos = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 
+    //values for pieces
     public final int None = 0;
     public final int King = 1;
     public final int Pawn = 2;
@@ -27,6 +30,10 @@ public class Chess {
         chess.PrintBoard();
     }
 
+    /*
+     * Display board in terminal
+     */
+
     public void PrintBoard(){
         for(int j = 7; j >= 0; j--){
             for(int i = 7; i >= 0; i--){
@@ -36,7 +43,16 @@ public class Chess {
         }
 
     }
+
+    public void AlgebraicNotation(){
+        
+
+    }
     
+    /*
+     * Load board position from a fen notation string
+     */
+
     public void loadFromFen (String fen){
         Dictionary<Character,Integer> pieceTypeLetter= new Hashtable<>();
         pieceTypeLetter.put('k', King);
